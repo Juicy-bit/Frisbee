@@ -90,7 +90,11 @@
     <h1>Goodluck on Your Frisbee Tourny!</h1>
     <p>Even though we're not in the same team, I will still <span class="cheer">cheer for you</span>. 😊<br>And as we promised, 10 total stat right? :p</p>
     <div class="frisbee"></div>
-    <!-- Falling Emojis -->
+
+    <!-- Background Music -->
+    <audio id="bg-music" src="goodluck.mp3" preload="auto" loop autoplay></audio>
+
+    <!-- Falling Emojis and Music Script -->
     <script>
         const emojis = ['🌸', '😺', '🌼', '😸', '🌺', '😻'];
         for (let i = 0; i < 20; i++) {
@@ -102,8 +106,15 @@
             emoji.style.left = (Math.random() * 100) + 'vw';
             document.body.appendChild(emoji);
         }
+
+        // Play background music on load
+        window.addEventListener('load', () => {
+            const bgMusic = document.getElementById('bg-music');
+            bgMusic.volume = 0.5;
+            bgMusic.play().catch(error => {
+                console.log("Autoplay prevented. Click to play.");
+            });
+        });
     </script>
-    <!-- Background Music -->
-    <audio id="bg-music" src="goodluck.mp3" preload="auto" loop autoplay></audio>
 </body>
 </html>
