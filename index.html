@@ -26,6 +26,7 @@
             text-align: center;
             animation: bounceIn 1.5s ease-out forwards;
             line-height: 1.2;
+            opacity: 0;
         }
         p {
             font-size: 1em;
@@ -34,34 +35,39 @@
             margin: 20px 0;
             animation: slideIn 1.5s ease-out forwards 1s;
             line-height: 1.4;
+            opacity: 0;
         }
         .cheer {
             font-weight: bold;
             color: #32CD32;
             animation: pulse 2s infinite ease-in-out;
         }
-        .frisbee {
-            width: 60px;
-            height: 60px;
+        .frisbee-disc {
+            width: 150px;
+            height: 150px;
             background-color: #FF6347;
             border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 0;
-            animation: frisbeeSpin 5s linear infinite;
-            box-shadow: 0 0 15px rgba(255,99,71,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Pacifico', cursive;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255,99,71,0.8);
+            animation: spin 3s linear infinite;
+            transition: transform 0.3s ease-in-out;
         }
-        .falling-emoji {
-            position: absolute;
-            font-size: 2em;
-            top: -100px;
-            animation: fall 8s linear infinite;
-            z-index: 1;
+        .frisbee-disc:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+        .hidden {
+            display: none;
         }
         @keyframes bounceIn {
             0% { transform: scale(0.5) translateY(-50px); opacity: 0; }
             60% { transform: scale(1.1) translateY(20px); opacity: 1; }
-            100% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
         }
         @keyframes slideIn {
             0% { transform: translateY(50px); opacity: 0; }
@@ -72,50 +78,28 @@
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
-        @keyframes frisbeeSpin {
-            0% { left: 0; top: 60%; transform: rotate(0deg); }
-            25% { left: 25%; top: 40%; transform: rotate(90deg); }
-            50% { left: 50%; top: 20%; transform: rotate(180deg); }
-            75% { left: 75%; top: 40%; transform: rotate(270deg); }
-            100% { left: 100%; top: 60%; transform: rotate(360deg); }
-        }
-        @keyframes fall {
-            0% { top: -100px; left: calc(100% * var(--x)); opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 110vh; left: calc(100% * var(--x)); opacity: 0; }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <h1>Goodluck on Your Frisbee Tourny!</h1>
-    <p>Even though we're not in the same team, I will still <span class="cheer">cheer for you</span>. 😊<br>And as we promised, 10 total stat right? :p</p>
-    <div class="frisbee"></div>
-
-    <!-- Background Music -->
+    <div class="frisbee-disc" onclick="startExperience()">🎯 Click Me</div>
+    <h1 class="hidden">Goodluck on Your Frisbee Tourny!</h1>
+    <p class="hidden">Even though we're not in the same team, I will still <span class="cheer">cheer for you</span>. 😊<br>And as we promised, 10 total stat right? :p</p>
     <audio id="bg-music" src="goodluck.mp3" preload="auto" loop></audio>
-
-    <!-- Falling Emojis and Music Script -->
     <script>
-        const emojis = ['🌸', '😺', '🌼', '😸', '🌺', '😻'];
-        for (let i = 0; i < 20; i++) {
-            const emoji = document.createElement('div');
-            emoji.className = 'falling-emoji';
-            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            emoji.style.setProperty('--x', Math.random());
-            emoji.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            emoji.style.left = (Math.random() * 100) + 'vw';
-            document.body.appendChild(emoji);
-        }
-
-        // Play background music on tap (mobile friendly)
-        const bgMusic = document.getElementById('bg-music');
-        bgMusic.volume = 0.5;
-        document.body.addEventListener('click', () => {
+        function startExperience() {
+            const bgMusic = document.getElementById('bg-music');
             bgMusic.muted = false;
-            bgMusic.play().catch(error => {
-                console.log("Autoplay prevented. Click to play.");
-            });
-        });
+            bgMusic.play().catch(error => console.log("Autoplay prevented."));
+
+            // Show the message and hide the frisbee
+            document.querySelector('.frisbee-disc').classList.add('hidden');
+            document.querySelector('h1').classList.remove('hidden');
+            document.querySelector('p').classList.remove('hidden');
+        }
     </script>
 </body>
 </html>
