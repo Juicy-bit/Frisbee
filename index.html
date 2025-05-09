@@ -92,7 +92,7 @@
     <div class="frisbee"></div>
 
     <!-- Background Music -->
-    <audio id="bg-music" src="goodluck.mp3" preload="auto" loop muted></audio>
+    <audio id="bg-music" src="goodluck.mp3" preload="auto" loop></audio>
 
     <!-- Falling Emojis and Music Script -->
     <script>
@@ -107,16 +107,15 @@
             document.body.appendChild(emoji);
         }
 
-
-    // Play background music on load
-    window.addEventListener('load', () => {
-    const bgMusic = document.getElementById('bg-music');
-    bgMusic.volume = 0.5;
-    bgMusic.muted = false; // Unmute after the page loads
-    bgMusic.play().catch(error => {
-        console.log("Autoplay prevented. Click to play.");
-    });
-});
+        // Play background music on tap (mobile friendly)
+        const bgMusic = document.getElementById('bg-music');
+        bgMusic.volume = 0.5;
+        document.body.addEventListener('click', () => {
+            bgMusic.muted = false;
+            bgMusic.play().catch(error => {
+                console.log("Autoplay prevented. Click to play.");
+            });
+        });
     </script>
 </body>
 </html>
